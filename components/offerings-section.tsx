@@ -49,7 +49,7 @@ export function OfferingsSection() {
             data-aos="fade-up"
             data-aos-delay="400"
           >
-            Discover the exceptional dining experience that awaits you at Bella Vista, where every detail is crafted to
+            Discover the exceptional dining experience that awaits you at Sunset View Point, where every detail is crafted to
             perfection.
           </p>
         </div>

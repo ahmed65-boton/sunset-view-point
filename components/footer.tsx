@@ -61,16 +61,16 @@ export function Footer() {
                 <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-muted-foreground">
                   <p>Sunset Hill Road,</p>
-                  <p>Scenic Point, Mumbai 400001</p>
+                  <p>Scenic Point, Quetta 87300</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+929876543210"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  +91 98765 43210
+                  +92 98765 43210
                 </a>
               </div>
               <div className="flex items-center space-x-3">
