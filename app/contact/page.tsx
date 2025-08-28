@@ -135,29 +135,15 @@ export default function ContactPage() {
                 {/* Map */}
                 <Card data-aos="fade-up" data-aos-delay="600">
                   <CardContent className="p-0">
-                    <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center">
-                      {/* <div className="text-center"> */}
-                      {/* <MapPin className="w-12 h-12 text-muted-foreground mx-auto mb-2" /> */}
-                      {/* <p className="text-muted-foreground">Interactive Map</p>
-                        <p className="text-sm text-muted-foreground">Sunset Hill Road, Quetta</p>
-                        <Button variant="outline" className="mt-2 bg-transparent" asChild>
-                          <a
-                            href="https://maps.google.com/?q=Sunset+Hill+Road+Quetta+Pakistan"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            Open in Google Maps
-                          </a>
-                        </Button> */}
-
+                    <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center sm:mb-0 mb-8">
                       <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d789.0040487625786!2d67.07291918207021!3d30.213563600441265!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2s!4v1756408067272!5m2!1sen!2s"
-                        width="100%"
-                        height="100%"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d789.0040487625786!2d67.07291918207021!3d30.213563600441265!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ed2df5b4562c0eb%3A0x1731c51bbff6e8e!2sSunset%20View%20Point!5e1!3m2!1sen!2s!4v1756408926211!5m2!1sen!2s"
+                        width="600"
+                        height="450"
                         style={{ border: 0 }}
                         allowFullScreen
-                        referrerPolicy="no-referrer-when-downgrade"
                         loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
                       ></iframe>
                       {/* </div> */}
                     </div>
