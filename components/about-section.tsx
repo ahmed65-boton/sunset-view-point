@@ -31,7 +31,11 @@ export function AboutSection() {
                   SVP exhibit the cmt of SVP staff to their job.
                 </p>
                 <p className="text-pretty">
-                  Our philosophy is simple: exceptional food, warm hospitality, and an atmosphere that makes every occasion special. Whether you're celebrating a milestone or simply enjoying an evening out, SVP provides the perfect backdrop for life's most precious moments.
+                  Our philosophy is simple: exceptional food, warm hospitality,
+                  and an atmosphere that makes every occasion special. Whether
+                  you're celebrating a milestone or simply enjoying an evening
+                  out, SVP provides the perfect backdrop for life's most
+                  precious moments.
                 </p>
               </div>
             </div>
@@ -112,36 +116,6 @@ export function AboutSection() {
                 </Card>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* Recognition Section */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2
-            className="text-3xl font-bold text-foreground mb-8 text-balance"
-            data-aos="fade-up"
-          >
-            Recognition & Awards
-          </h2>
-          <div
-            className="flex flex-wrap justify-center gap-4"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            <Badge variant="secondary" className="text-sm py-2 px-4">
-              Best Sunset Dining 2024
-            </Badge>
-            <Badge variant="secondary" className="text-sm py-2 px-4">
-              TripAdvisor Certificate of Excellence
-            </Badge>
-            <Badge variant="secondary" className="text-sm py-2 px-4">
-              OpenTable Diners' Choice
-            </Badge>
-            <Badge variant="secondary" className="text-sm py-2 px-4">
-              Local Food Critics' Pick
-            </Badge>
           </div>
         </div>
       </section>
