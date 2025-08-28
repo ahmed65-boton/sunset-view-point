@@ -37,7 +37,7 @@ export function ExperienceSection() {
               title: "Ambient Atmosphere",
               description:
                 "Soft acoustic melodies complement the natural symphony of the evening, creating the perfect ambiance.",
-              image: "/elegant-restaurant-interior-with-warm-lighting-and.png",
+              image: "/elegant-restaurant-interior-with-warm-lighting-and.webp",
             },
             {
               icon: Utensils,

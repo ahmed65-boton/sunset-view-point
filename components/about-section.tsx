@@ -6,7 +6,7 @@ export function AboutSection() {
   return (
     <>
       {/* Story Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 bg-muted/30" id="about">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12" data-aos="fade-up">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
@@ -37,8 +37,8 @@ export function AboutSection() {
             </div>
             <div className="relative" data-aos="fade-left" data-aos-delay="200">
               <img
-                src="/chef-marco-in-kitchen-preparing-dish.png"
-                alt="Our head chef preparing signature dishes"
+                src="/our_story.webp"
+                alt="Our Story"
                 className="w-full h-96 object-cover rounded-lg shadow-lg"
               />
               <div className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground p-4 rounded-lg shadow-lg">

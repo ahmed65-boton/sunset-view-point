@@ -7,7 +7,7 @@ export function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/elegant-restaurant-interior-with-warm-lighting-and.png"
+          src="/elegant-restaurant-interior-with-warm-lighting-and.webp"
           alt="Sunset View Point Restaurant Interior"
           className="w-full h-full object-cover"
         />
@@ -42,7 +42,7 @@ export function HeroSection() {
             size="lg"
             className="text-lg px-8 py-6 bg-white/10 border-white/30 text-white hover:bg-white/20"
           >
-            <Link href="/about">Our Story</Link>
+            <Link href="/#about">Our Story</Link>
           </Button>
         </div>
       </div>
