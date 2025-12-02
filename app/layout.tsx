@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\app\layout.tsx
 import type React from "react";
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";

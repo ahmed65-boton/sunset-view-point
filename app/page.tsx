@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\app\page.tsx
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
 import { OfferingsSection } from "@/components/offerings-section"

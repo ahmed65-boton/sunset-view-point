@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\components\hero-section.tsx
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 

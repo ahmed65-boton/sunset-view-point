@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\components\about-section.tsx
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Award, Users, Clock, Heart } from "lucide-react";

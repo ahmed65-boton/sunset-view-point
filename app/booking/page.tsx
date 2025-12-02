@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\app\booking\page.tsx
 import { Navigation } from "@/components/navigation"
 import { MenuSection } from "@/components/menu-section"
 import { BookingForm } from "@/components/booking-form"
@@ -18,7 +19,7 @@ export default function BookingPage() {
           </div>
           <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-balance" data-aos="fade-up">
-              Reserve Your Sunset Experience
+              Reserve Your Sunset Experienc
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mx-auto text-pretty" data-aos="fade-up" data-aos-delay="200">
               Select your favorite dishes and book your perfect dining experience with breathtaking sunset views at

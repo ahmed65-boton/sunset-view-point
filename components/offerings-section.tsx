@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\components\offerings-section.tsx
 import { Card, CardContent } from "@/components/ui/card";
 import { ChefHat, Utensils, Wine, Gift } from "lucide-react";
 

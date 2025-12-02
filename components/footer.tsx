@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\components\footer.tsx
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";

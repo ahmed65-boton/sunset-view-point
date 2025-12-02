@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\components\experience-section.tsx
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Sunset, Camera, Music, Utensils } from "lucide-react"

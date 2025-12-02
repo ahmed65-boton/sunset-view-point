@@ -1,3 +1,4 @@
+// D:\CO Laptop Data\sunset-view-point-main\next.config.mjs
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {

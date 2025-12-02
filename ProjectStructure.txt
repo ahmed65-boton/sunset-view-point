@@ -1,0 +1,209 @@
+Project Structure Report
+Generated: 2025-12-02 15:21:52
+Project Path: D:\CO Laptop Data\sunset-view-point-main
+Excluded Folders: node_modules, .expo, dist, build, .git, .vscode, .idea, __pycache__, bin, obj, .gradle, .svn, .hg, .vs, .cxx, .cmake, CMakeFiles, RelWithDebInfo, intermediates, outputs
+Excluded File Extensions: .dll, .exe, .pdb, .obj, .log, .tmp, .o, .a, .so, .bin, .class, .dex, .apk, .aar, .ipa
+================================================================================
+
+.gitattributes | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+.gitignore | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+.next | Size: DIR | Modified: 2025-12-02 15:15:11 | Attributes: Directory
+  app-build-manifest.json | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+  build-manifest.json | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+  cache | Size: DIR | Modified: 2025-12-02 01:04:24 | Attributes: Directory
+    .rscinfo | Size: 0 MB | Modified: 2025-12-02 01:03:21 | Attributes: Archive
+    swc | Size: DIR | Modified: 2025-12-02 01:04:24 | Attributes: Directory
+      plugins | Size: DIR | Modified: 2025-12-02 01:04:24 | Attributes: Directory
+        v7_windows_x86_64_8.0.0 | Size: DIR | Modified: 2025-12-02 01:04:24 | Attributes: Directory
+    webpack | Size: DIR | Modified: 2025-12-02 01:04:41 | Attributes: Directory
+      client-development | Size: DIR | Modified: 2025-12-02 01:04:46 | Attributes: Directory
+        0.pack.gz | Size: 0.04 MB | Modified: 2025-12-02 01:03:25 | Attributes: Archive
+        1.pack.gz | Size: 10.94 MB | Modified: 2025-12-02 01:04:46 | Attributes: Archive
+        index.pack.gz | Size: 0.19 MB | Modified: 2025-12-02 01:04:45 | Attributes: Archive
+        index.pack.gz.old | Size: 0 MB | Modified: 2025-12-02 01:03:25 | Attributes: Archive
+      server-development | Size: DIR | Modified: 2025-12-02 01:04:46 | Attributes: Directory
+        0.pack.gz | Size: 9.15 MB | Modified: 2025-12-02 01:04:46 | Attributes: Archive
+        index.pack.gz | Size: 0.31 MB | Modified: 2025-12-02 01:04:44 | Attributes: Archive
+  package.json | Size: 0 MB | Modified: 2025-12-02 15:15:08 | Attributes: Archive
+  react-loadable-manifest.json | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+  server | Size: DIR | Modified: 2025-12-02 15:15:15 | Attributes: Directory
+    app | Size: DIR | Modified: 2025-12-02 15:15:17 | Attributes: Directory
+      page_client-reference-manifest.js | Size: 0.02 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      page.js | Size: 0.34 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+    app-paths-manifest.json | Size: 0 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+    interception-route-rewrite-manifest.js | Size: 0 MB | Modified: 2025-12-02 15:15:13 | Attributes: Archive
+    middleware-build-manifest.js | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+    middleware-manifest.json | Size: 0 MB | Modified: 2025-12-02 15:15:13 | Attributes: Archive
+    middleware-react-loadable-manifest.js | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+    next-font-manifest.js | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+    next-font-manifest.json | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+    pages-manifest.json | Size: 0 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+    server-reference-manifest.js | Size: 0 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+    server-reference-manifest.json | Size: 0 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+    vendor-chunks | Size: DIR | Modified: 2025-12-02 15:15:15 | Attributes: Directory
+      @radix-ui+react-compose-ref_65343f9260f2057d927f3a569574f69b.js | Size: 0.01 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      @radix-ui+react-slot@1.1.1_@types+react@19.1.12_react@19.1.1.js | Size: 0.02 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      @swc+helpers@0.5.15.js | Size: 0.01 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      aos@2.3.4.js | Size: 0.04 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      class-variance-authority@0.7.1.js | Size: 0.02 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      clsx@2.1.1.js | Size: 0.01 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      date-fns@4.1.0.js | Size: 0.36 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      geist@1.4.2_next@15.2.4_rea_daef5b4904953415c8db3dac047d51b3.js | Size: 0.01 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      lucide-react@0.454.0_react@19.1.1.js | Size: 0.11 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      next-themes@0.4.6_react-dom_13aa3294eb836767e52da316e3121154.js | Size: 0.02 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      next@15.2.4_react-dom@19.1.1_react@19.1.1__react@19.1.1.js | Size: 5.18 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      tailwind-merge@2.6.0.js | Size: 0.38 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+    webpack-runtime.js | Size: 0.01 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+  static | Size: DIR | Modified: 2025-12-02 15:15:17 | Attributes: Directory
+    chunks | Size: DIR | Modified: 2025-12-02 15:15:17 | Attributes: Directory
+      _app-pages-browser_node_modules_pnpm_aos_2_3_4_node_modules_aos_dist_aos_css.js | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      _app-pages-browser_node_modules_pnpm_aos_2_3_4_node_modules_aos_dist_aos_js.js | Size: 0.04 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      _app-pages-browser_node_modules_pnpm_next_15_2_4_react-dom_19_1_1_react_19_1_1__react_19_1_1_-1278d6.js | Size: 0.01 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      app | Size: DIR | Modified: 2025-12-02 15:15:17 | Attributes: Directory
+        layout.js | Size: 0.56 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+        page.js | Size: 0.81 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      app-pages-internals.js | Size: 0.23 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      main-app.js | Size: 6.41 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      polyfills.js | Size: 0.11 MB | Modified: 2025-12-02 15:15:11 | Attributes: Archive
+      webpack.js | Size: 0.05 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+    css | Size: DIR | Modified: 2025-12-02 15:15:17 | Attributes: Directory
+      _app-pages-browser_node_modules_pnpm_aos_2_3_4_node_modules_aos_dist_aos_css.css | Size: 0.03 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      app | Size: DIR | Modified: 2025-12-02 15:15:17 | Attributes: Directory
+        layout.css | Size: 0.14 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+    development | Size: DIR | Modified: 2025-12-02 15:15:11 | Attributes: Directory
+      _buildManifest.js | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      _ssgManifest.js | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+    media | Size: DIR | Modified: 2025-12-02 15:15:17 | Attributes: Directory
+      028c0d39d2e8f589-s.p.woff2 | Size: 0.06 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+      5b01f339abf2f1a5.p.woff2 | Size: 0.06 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+    webpack | Size: DIR | Modified: 2025-12-02 15:15:17 | Attributes: Directory
+      633457081244afec._.hot-update.json | Size: 0 MB | Modified: 2025-12-02 15:15:17 | Attributes: Archive
+  trace | Size: 0.03 MB | Modified: 2025-12-02 15:21:39 | Attributes: Archive
+  types | Size: DIR | Modified: 2025-12-02 15:15:15 | Attributes: Directory
+    app | Size: DIR | Modified: 2025-12-02 15:15:15 | Attributes: Directory
+      layout.ts | Size: 0 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+      page.ts | Size: 0 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+    cache-life.d.ts | Size: 0.01 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+    package.json | Size: 0 MB | Modified: 2025-12-02 15:15:15 | Attributes: Archive
+app | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+  booking | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+    page.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  contact | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+    page.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  globals.css | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  layout.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  page.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+components | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+  about-section.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  aos-provider.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  booking-form.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  contact-form.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  experience-section.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  footer.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  hero-section.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  menu-section.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  navigation.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  offerings-section.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  theme-provider.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  ui | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+    accordion.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    alert-dialog.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    alert.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    aspect-ratio.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    avatar.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    badge.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    breadcrumb.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    button.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    calendar.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    card.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    carousel.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    chart.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    checkbox.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    collapsible.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    command.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    context-menu.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    dialog.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    drawer.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    dropdown-menu.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    form.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    hover-card.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    input-otp.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    input.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    label.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    menubar.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    navigation-menu.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    pagination.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    popover.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    progress.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    radio-group.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    resizable.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    scroll-area.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    select.tsx | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    separator.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    sheet.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    sidebar.tsx | Size: 0.02 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    skeleton.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    slider.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    sonner.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    switch.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    table.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    tabs.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    textarea.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    toast.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    toaster.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    toggle-group.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    toggle.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    tooltip.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    use-mobile.tsx | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+    use-toast.ts | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+components.json | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+hooks | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+  use-mobile.ts | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  use-toast.ts | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+lib | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+  utils.ts | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+next-env.d.ts | Size: 0 MB | Modified: 2025-12-02 01:03:21 | Attributes: Archive
+next.config.mjs | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+package.json | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+pnpm-lock.yaml | Size: 0.13 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+postcss.config.mjs | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+ProjectStructure.txt | Size: 0 MB | Modified: 2025-12-02 15:21:52 | Attributes: Archive
+public | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+  android-chrome-192x192.png | Size: 0.04 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  android-chrome-512x512.png | Size: 0.22 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  apple-touch-icon.png | Size: 0.04 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  burrata-caprese-appetizer.png | Size: 1.27 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  chocolate-souffle-dessert.png | Size: 1.28 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  duck-confit-main.png | Size: 1.21 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  elegant-restaurant-dining-room-with-warm-lighting.png | Size: 2.32 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  elegant-restaurant-interior-with-warm-lighting-and.webp | Size: 0.67 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  favicon-16x16.png | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  favicon-32x32.png | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  favicon.ico | Size: 0.01 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  fresh-lime-soda.png | Size: 1.25 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  gourmet-dish-plated-elegantly-on-white-plate.png | Size: 0.15 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  mango-lassi.png | Size: 1.02 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  masala-chai.png | Size: 1.36 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  our_story.webp | Size: 0.31 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  pan-seared-salmon.png | Size: 1.36 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  placeholder-logo.png | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  placeholder-logo.svg | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  placeholder-user.jpg | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  placeholder.jpg | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  placeholder.svg | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  seared-scallops-appetizer.png | Size: 1.25 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  site.webmanifest | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  sunsetlogo.png | Size: 0.63 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  tiramisu-dessert.png | Size: 1.19 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  truffle-arancini-appetizer.png | Size: 1.19 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  variety-of-elegant-dishes-on-restaurant-table.png | Size: 1.47 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  wagyu-beef-tenderloin.png | Size: 1.17 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+  wine-glasses-and-elegant-table-setting.png | Size: 1.08 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+ScanProject.ps1 | Size: 0.01 MB | Modified: 2025-12-02 02:44:45 | Attributes: Archive
+styles | Size: DIR | Modified: 2025-12-02 00:46:25 | Attributes: Directory
+  globals.css | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+tsconfig.json | Size: 0 MB | Modified: 2025-12-02 00:46:25 | Attributes: Archive
+
+================================================================================
+Scan completed successfully!
+Total Project Size (excluding excluded folders/extensions): 56.59 MB
