@@ -1,3 +1,6 @@
+// app/api/reservations/route.ts
+export const runtime = "nodejs";
+
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/firebase/admin";
@@ -17,7 +20,11 @@ function isValidDateDDMMYYYY(value: string) {
   if (y < 1000 || y > 9999 || m < 1 || m > 12 || d < 1 || d > 31) return false;
 
   const dt = new Date(Date.UTC(y, m - 1, d));
-  return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+  return (
+    dt.getUTCFullYear() === y &&
+    dt.getUTCMonth() === m - 1 &&
+    dt.getUTCDate() === d
+  );
 }
 
 function isValidDateYYYYMMDD(value: string) {
@@ -29,7 +36,11 @@ function isValidDateYYYYMMDD(value: string) {
   if (y < 1000 || y > 9999 || m < 1 || m > 12 || d < 1 || d > 31) return false;
 
   const dt = new Date(Date.UTC(y, m - 1, d));
-  return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+  return (
+    dt.getUTCFullYear() === y &&
+    dt.getUTCMonth() === m - 1 &&
+    dt.getUTCDate() === d
+  );
 }
 
 function yyyyMmDdToDdMmYyyy(yyyymmdd: string) {
@@ -70,7 +81,6 @@ const ReservationSchema = z.object({
 });
 
 export async function POST(req: Request) {
-  // We'll define these here so we can update the reservation doc after transaction
   let reservationRef: FirebaseFirestore.DocumentReference | null = null;
   let dateDisplay = "";
   let reservationId = "";
@@ -82,14 +92,19 @@ export async function POST(req: Request) {
     const phone = normalizePhone(input.phone);
 
     // Convert date to both forms for storage
-    const dateKey = isValidDateYYYYMMDD(input.date) ? input.date : ddMmYyyyToYyyyMmDd(input.date);
-    dateDisplay = isValidDateDDMMYYYY(input.date) ? input.date : yyyyMmDdToDdMmYyyy(input.date);
+    const dateKey = isValidDateYYYYMMDD(input.date)
+      ? input.date
+      : ddMmYyyyToYyyyMmDd(input.date);
+
+    dateDisplay = isValidDateDDMMYYYY(input.date)
+      ? input.date
+      : yyyyMmDdToDdMmYyyy(input.date);
 
     const slotKey = `${dateKey}_${input.time}`;
 
     const settingsRef = db.collection("settings").doc("global");
     const slotRef = db.collection("slots").doc(slotKey);
-    reservationRef = db.collection("reservations").doc(); // create ID now
+    reservationRef = db.collection("reservations").doc();
     reservationId = reservationRef.id;
     const customerRef = db.collection("customers").doc(phone);
 
@@ -148,7 +163,6 @@ export async function POST(req: Request) {
           notes: input.notes || "",
         },
         confirmation: {
-          // email is handled client-side by EmailJS now
           emailSent: false,
           emailProvider: "emailjs",
           whatsappSent: false,
@@ -185,7 +199,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, message: result.message }, { status: 409 });
     }
 
-    // No server-side email here (EmailJS is client-side)
     return NextResponse.json({ ok: true, reservationId });
   } catch (err: any) {
     return NextResponse.json(

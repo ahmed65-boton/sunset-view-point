@@ -1,38 +1,22 @@
 import "server-only";
 import { cert, getApps, initializeApp } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import fs from "node:fs";
-import path from "node:path";
 
-type ServiceAccount = {
-  project_id: string;
-  client_email: string;
-  private_key: string;
-};
+const projectId = process.env.FIREBASE_PROJECT_ID;
+const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
 
-const filePath = path.join(process.cwd(), "firebase.json");
-if (!fs.existsSync(filePath)) {
-  throw new Error("firebase.json not found in project root.");
-}
-
-const serviceAccount = JSON.parse(fs.readFileSync(filePath, "utf8")) as ServiceAccount;
-
-// ensure key is valid even if stored with \\n (some people do that)
-serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
-
-if (!serviceAccount.project_id || !serviceAccount.client_email || !serviceAccount.private_key) {
-  throw new Error("firebase.json is missing project_id/client_email/private_key");
+if (!projectId || !clientEmail || !privateKey) {
+  throw new Error(
+    "Missing FIREBASE_PROJECT_ID / FIREBASE_CLIENT_EMAIL / FIREBASE_PRIVATE_KEY in env"
+  );
 }
 
 const app =
   getApps().length
     ? getApps()[0]
     : initializeApp({
-        credential: cert({
-          projectId: serviceAccount.project_id,
-          clientEmail: serviceAccount.client_email,
-          privateKey: serviceAccount.private_key,
-        }),
+        credential: cert({ projectId, clientEmail, privateKey }),
       });
 
 export const db = getFirestore(app);
