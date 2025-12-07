@@ -24,7 +24,8 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          
+              <div className="hidden md:flex items-center space-x-8">
             <Link href="/" className="text-foreground hover:text-primary transition-colors">
               Home
             </Link>
@@ -34,6 +35,14 @@ export function Navigation() {
             <Link href="/contact" className="text-foreground hover:text-primary transition-colors">
               Contact
             </Link>
+             <Link href="/login" className="text-foreground hover:text-primary transition-colors">
+                Login
+            </Link>
+             <Link href="/members" className="text-foreground hover:text-primary transition-colors">
+              Mem
+            </Link>
+            
+
 
             {/* Theme Toggle */}
             <Button
@@ -90,6 +99,20 @@ export function Navigation() {
                 onClick={() => setIsOpen(false)}
               >
                 Contact
+              </Link>
+              <Link
+                href="/login"
+                className="block px-3 py-2 text-foreground hover:text-primary transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                login 
+              </Link>
+              <Link
+                href="/members"
+                className="block px-3 py-2 text-foreground hover:text-primary transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Members
               </Link>
             </div>
           </div>

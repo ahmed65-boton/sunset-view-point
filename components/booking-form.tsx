@@ -16,8 +16,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
 import { Calendar } from "lucide-react";
+
+import { db } from "@/lib/firebase/client";
+import {
+  doc,
+  setDoc,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 
 const PUBLIC_KEY = "nXQldBEXxkP9OvbsA";
 const SERVICE_ID = "service_po9ijq4";
@@ -47,12 +55,12 @@ export function BookingForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { name, email, phone, date, time, guests, specialRequests } = formData;
+    const { name, email, phone, date, time, guests, specialRequests } =
+      formData;
 
     if (!email.includes("@") || !email.endsWith(".com")) {
       return setStatus("❌ Please enter a valid email ending with .com.");
     }
-
     if (!name.trim() || !date || !time || !guests) {
       return setStatus("❌ All fields except special requests are required.");
     }
@@ -60,7 +68,6 @@ export function BookingForm() {
     setLoading(true);
     setStatus("Sending confirmation email...");
 
-    // Build the message body with full details
     const bookingMessage = `
 Booking Details:
 -------------------------
@@ -76,37 +83,54 @@ ${specialRequests || "None"}
 We look forward to serving you at Sunset View Point!
     `;
 
-    // MUST MATCH YOUR EMAILJS TEMPLATE VARIABLES EXACTLY
     const params = {
-      email,                                 // {{email}}
-      name,                                  // {{name}}
+      email, // {{email}}
+      name, // {{name}}
       title: "Your Sunset View Point Booking", // {{title}}
-      message: bookingMessage,               // {{message}}
-      time: new Date().toLocaleString(),     // {{time}}
-      date,                                  // {{date}}
-      "number of guests": guests,            // {{number of guests}}
+      message: bookingMessage, // {{message}}
+      time: new Date().toLocaleString(), // {{time}}
+      date, // {{date}}
+      "number of guests": guests, // {{number of guests}}
     };
 
     try {
-      const res = await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        params,
-        PUBLIC_KEY
+      // 1) EmailJS – send confirmation to customer
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, params, PUBLIC_KEY);
+
+      // 2) Firestore – customers/{email}/bookings/{autoId}
+      const customerRef = doc(db, "customers", email);
+      await setDoc(
+        customerRef,
+        {
+          fullName: name,
+          email,
+          phone,
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
       );
 
-      console.log("EmailJS success:", res);
+      await addDoc(collection(customerRef, "bookings"), {
+        fullName: name,
+        email,
+        phone,
+        date,
+        time,
+        numberOfGuests: guests,
+        specialRequests: specialRequests || "",
+        createdAt: serverTimestamp(),
+      });
+
       setIsSubmitted(true);
       setStatus("✔ Confirmation email sent!");
     } catch (err: any) {
-      console.error("EmailJS error:", err);
-      setStatus(`❌ Failed to send email. ${err.text || ""}`);
+      console.error("[BookingForm] Error:", err);
+      setStatus(`❌ Failed to send or save booking. ${err.text || ""}`);
     } finally {
       setLoading(false);
     }
   };
 
-  // SUCCESS SCREEN
   if (isSubmitted) {
     return (
       <Card className="border-primary/20 bg-primary/5">
@@ -118,22 +142,30 @@ We look forward to serving you at Sunset View Point!
               stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
-
-          <h3 className="text-2xl font-bold text-foreground mb-2">Booking Confirmed!</h3>
-
+          <h3 className="text-2xl font-bold text-foreground mb-2">
+            Booking Confirmed!
+          </h3>
           <p className="text-muted-foreground mb-4">
             A confirmation email has been sent to <strong>{formData.email}</strong>.
           </p>
-
           <div className="bg-card p-4 rounded-lg text-left space-y-2">
-            <p><strong>Date:</strong> {formData.date}</p>
-            <p><strong>Time:</strong> {formData.time}</p>
-            <p><strong>Guests:</strong> {formData.guests}</p>
+            <p>
+              <strong>Date:</strong> {formData.date}
+            </p>
+            <p>
+              <strong>Time:</strong> {formData.time}
+            </p>
+            <p>
+              <strong>Guests:</strong> {formData.guests}</p>
           </div>
-
           <Button
             onClick={() => {
               setIsSubmitted(false);
@@ -149,7 +181,6 @@ We look forward to serving you at Sunset View Point!
     );
   }
 
-  // MAIN FORM
   return (
     <Card>
       <CardHeader>
@@ -158,14 +189,11 @@ We look forward to serving you at Sunset View Point!
           Table Reservation
         </CardTitle>
       </CardHeader>
-
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-
-          {/* PERSONAL INFORMATION */}
+          {/* Personal Info */}
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground">Personal Information</h3>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
@@ -176,7 +204,6 @@ We look forward to serving you at Sunset View Point!
                   required
                 />
               </div>
-
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -188,7 +215,6 @@ We look forward to serving you at Sunset View Point!
                 />
               </div>
             </div>
-
             <div className="space-y-2">
               <Label htmlFor="phone">Phone Number</Label>
               <Input
@@ -201,12 +227,10 @@ We look forward to serving you at Sunset View Point!
             </div>
           </div>
 
-          {/* RESERVATION DETAILS */}
+          {/* Reservation Details */}
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground">Reservation Details</h3>
-
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {/* DATE */}
               <div className="space-y-2">
                 <Label htmlFor="date">Date</Label>
                 <Input
@@ -218,8 +242,6 @@ We look forward to serving you at Sunset View Point!
                   required
                 />
               </div>
-
-              {/* TIME */}
               <div className="space-y-2">
                 <Label htmlFor="time">Time</Label>
                 <Select
@@ -233,8 +255,8 @@ We look forward to serving you at Sunset View Point!
                     <SelectItem value="16:30">4:30 PM</SelectItem>
                     <SelectItem value="17:00">5:00 PM</SelectItem>
                     <SelectItem value="17:30">5:30 PM</SelectItem>
-                    <SelectItem value="18:00">6:00 PM (Sunset)</SelectItem>
-                    <SelectItem value="18:30">6:30 PM (Sunset)</SelectItem>
+                    <SelectItem value="18:00">6:00 PM (Prime Sunset Time)</SelectItem>
+                    <SelectItem value="18:30">6:30 PM (Prime Sunset Time)</SelectItem>
                     <SelectItem value="19:00">7:00 PM</SelectItem>
                     <SelectItem value="19:30">7:30 PM</SelectItem>
                     <SelectItem value="20:00">8:00 PM</SelectItem>
@@ -243,8 +265,6 @@ We look forward to serving you at Sunset View Point!
                   </SelectContent>
                 </Select>
               </div>
-
-              {/* NUMBER OF GUESTS */}
               <div className="space-y-2">
                 <Label htmlFor="guests">Number of Guests</Label>
                 <Select
@@ -266,19 +286,20 @@ We look forward to serving you at Sunset View Point!
             </div>
           </div>
 
-          {/* SPECIAL REQUESTS */}
+          {/* Special Requests */}
           <div className="space-y-2">
             <Label htmlFor="requests">Special Requests (Optional)</Label>
             <Textarea
               id="requests"
-              placeholder="Dietary restrictions, seating preferences..."
+              placeholder="Dietary restrictions, special occasions, seating preferences..."
               value={formData.specialRequests}
-              onChange={(e) => handleInputChange("specialRequests", e.target.value)}
+              onChange={(e) =>
+                handleInputChange("specialRequests", e.target.value)
+              }
               rows={3}
             />
           </div>
 
-          {/* SUBMIT */}
           <Button type="submit" className="w-full text-lg py-6" disabled={loading}>
             {loading ? "Sending..." : "Confirm Reservation"}
           </Button>
