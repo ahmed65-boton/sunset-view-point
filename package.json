@@ -8,6 +8,15 @@
     "lint": "next lint",
     "start": "next start"
   },
+
+  "pnpm": {
+  "overrides": {
+    "next": "15.2.6",
+    "react": "19.2.1",
+    "react-dom": "19.2.1"
+  }
+},
+
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@hookform/resolvers": "^3.10.0",
