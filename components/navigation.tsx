@@ -39,7 +39,7 @@ export function Navigation() {
                 Login
             </Link>
              <Link href="/members" className="text-foreground hover:text-primary transition-colors">
-              Mem
+              Members
             </Link>
             
 

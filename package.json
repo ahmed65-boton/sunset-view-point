@@ -8,15 +8,13 @@
     "lint": "next lint",
     "start": "next start"
   },
-
   "pnpm": {
-  "overrides": {
-    "next": "15.2.6",
-    "react": "19.2.1",
-    "react-dom": "19.2.1"
-  }
-},
-
+    "overrides": {
+      "next": "15.2.6",
+      "react": "19.2.1",
+      "react-dom": "19.2.1"
+    }
+  },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "@hookform/resolvers": "^3.10.0",
@@ -53,6 +51,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
     "date-fns": "4.1.0",
+    "emailjs": "^4.0.3",
     "embla-carousel-react": "8.5.1",
     "firebase": "^12.6.0",
     "firebase-admin": "^13.6.0",

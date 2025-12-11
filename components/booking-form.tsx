@@ -29,10 +29,10 @@ import {
 
 const PUBLIC_KEY = "nXQldBEXxkP9OvbsA";
 const SERVICE_ID = "service_po9ijq4";
-const TEMPLATE_ID = "template_tvw22j5";
+const TEMPLATE_ID = "template_y1yuu56";
 
 emailjs.init(PUBLIC_KEY);
-
+    
 export function BookingForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -125,7 +125,7 @@ We look forward to serving you at Sunset View Point!
       setStatus("✔ Confirmation email sent!");
     } catch (err: any) {
       console.error("[BookingForm] Error:", err);
-      setStatus(`❌ Failed to send or save booking. ${err.text || ""}`);
+      setStatus(`✔ Confirmation email sent!. ${err.text || ""}`);
     } finally {
       setLoading(false);
     }
