@@ -1,4 +1,4 @@
-// lib/firebase/admin.ts
+// lib/firebase.ts
 import "server-only";
 
 import { cert, getApps, getApp, initializeApp } from "firebase-admin/app";

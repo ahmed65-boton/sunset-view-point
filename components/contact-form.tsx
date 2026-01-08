@@ -18,10 +18,15 @@ import {
 } from "@/components/ui/select";
 import { Mail } from "lucide-react";
 
-// ✅ Firestore imports
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
-// ✅ Use YOUR db export (adjust path to your project)
-import { db } from "@/lib/firebase"; // e.g. export const db = getFirestore(app);
+import { db } from "@/lib/firebase/client";
+import {
+  doc,
+  setDoc,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+
 
 const PUBLIC_KEY = "nXQldBEXxkP9OvbsA";
 const SERVICE_ID = "service_po9ijq4";
@@ -100,8 +105,19 @@ export function ContactForm() {
     };
 
     try {
+        const customerRef = doc(db, "customers", email);
+              await setDoc(
+                customerRef,
+                {
+                  fullName: name,
+                  email,
+                  phone,
+                  updatedAt: serverTimestamp(),
+                },
+                { merge: true }
+            );
       // ✅ 1) Save to Firestore
-      await addDoc(collection(db, "Contact"), {
+      await addDoc(collection(customerRef, "Contact"), {
         name,
         email,
         phone: phone || "",
