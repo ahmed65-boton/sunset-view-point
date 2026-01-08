@@ -1,4 +1,3 @@
-// D:\CO Laptop Data\sunset-view-point-main\components\contact-form.tsx
 "use client";
 
 import type React from "react";
@@ -19,11 +18,15 @@ import {
 } from "@/components/ui/select";
 import { Mail } from "lucide-react";
 
+// ✅ Firestore imports
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+// ✅ Use YOUR db export (adjust path to your project)
+import { db } from "@/lib/firebase"; // e.g. export const db = getFirestore(app);
+
 const PUBLIC_KEY = "nXQldBEXxkP9OvbsA";
 const SERVICE_ID = "service_po9ijq4";
 const TEMPLATE_ID = "template_tvw22j5";
 
-// Safe to keep; but we'll ALSO pass PUBLIC_KEY directly to send()
 emailjs.init(PUBLIC_KEY);
 
 type FormData = {
@@ -53,34 +56,26 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("[ContactForm] submit clicked");
 
     const { name, email, phone, subject, message } = formData;
 
     // Validation
     if (!email.includes("@") || !email.endsWith(".com")) {
       setStatus("Please enter a valid email (must contain @ and end with .com).");
-      console.log("[ContactForm] invalid email:", email);
       return;
     }
-
     if (!name.trim()) {
       setStatus("Name is required.");
-      console.log("[ContactForm] missing name");
       return;
     }
-
     if (!message.trim()) {
       setStatus("Message cannot be empty.");
-      console.log("[ContactForm] missing message");
       return;
     }
 
     setLoading(true);
     setStatus("Sending...");
-    console.log("[ContactForm] sending via EmailJS…");
 
-    // Map subject value to human-friendly label
     const subjectLabelMap: Record<string, string> = {
       reservation: "Reservation Inquiry",
       event: "Private Event",
@@ -92,33 +87,37 @@ export function ContactForm() {
     const subjectLabel =
       subjectLabelMap[subject] || (subject ? subject : "General Inquiry");
 
-    // MUST match your EmailJS template variables: email, name, title, message, time
+    // EmailJS template params
     const params = {
-      email, // To Email: {{email}}
-      name,  // From Name: {{name}}
-      title: subjectLabel || "Thanks for booking!",
+      email,
+      name,
+      title: subjectLabel || "Thanks for contacting us!",
       message:
         `Phone: ${phone || "Not provided"}\n` +
         `Subject: ${subjectLabel}\n\n` +
         `${message}`,
-      time: new Date().toLocaleString(), // For {{time}} in your template
+      time: new Date().toLocaleString(),
     };
 
-    console.log("[ContactForm] params being sent to EmailJS:", params);
-
     try {
-      const res = await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
-        params,
-        PUBLIC_KEY // ✅ pass key explicitly
-      );
-      console.log("[ContactForm] EmailJS success:", res);
+      // ✅ 1) Save to Firestore
+      await addDoc(collection(db, "Contact"), {
+        name,
+        email,
+        phone: phone || "",
+        subject: subjectLabel,
+        message,
+        createdAt: serverTimestamp(),
+        // optional: keep a client-readable time too
+        createdAtClient: new Date().toISOString(),
+      });
+
+      // ✅ 2) Send email via EmailJS
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, params, PUBLIC_KEY);
 
       setIsSubmitted(true);
       setStatus("Sent! Check your inbox/spam folder.");
 
-      // Clear fields
       setFormData({
         name: "",
         email: "",
@@ -127,14 +126,13 @@ export function ContactForm() {
         message: "",
       });
     } catch (err: any) {
-      console.error("[ContactForm] EmailJS error:", err);
-      setStatus(`Failed ❌ ${err?.text || "Something went wrong"}`);
+      console.error("[ContactForm] submit error:", err);
+      setStatus(`Failed ❌ ${err?.text || err?.message || "Something went wrong"}`);
     } finally {
       setLoading(false);
     }
   };
 
-  // Success card (same style as your old component)
   if (isSubmitted) {
     return (
       <Card className="border-primary/20 bg-primary/5">
@@ -162,7 +160,6 @@ export function ContactForm() {
     );
   }
 
-  // Form UI
   return (
     <Card>
       <CardHeader>
