@@ -1,83 +1,87 @@
-// D:\CO Laptop Data\sunset-view-point-main\components\experience-section.tsx
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Sunset, Camera, Music, Utensils } from "lucide-react"
+import { ArrowRight, Camera, Music, Sparkles, Sunset, Utensils } from "lucide-react"
 import Link from "next/link"
+
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+
+const experiences = [
+  {
+    icon: Sunset,
+    title: "Golden Hour Dining",
+    description: "Plan your table around the best light and enjoy Quetta valley as the sky changes color.",
+    image: "/elegant-restaurant-dining-room-with-warm-lighting.png",
+  },
+  {
+    icon: Camera,
+    title: "Photo-Friendly Corners",
+    description: "Capture memorable photos with scenic views, warm interiors, and beautifully served dishes.",
+    image: "/wine-glasses-and-elegant-table-setting.png",
+  },
+  {
+    icon: Music,
+    title: "Relaxed Atmosphere",
+    description: "A calm setting for friends, families, birthday dinners, and peaceful evening plans.",
+    image: "/elegant-restaurant-interior-with-warm-lighting-and.webp",
+  },
+  {
+    icon: Utensils,
+    title: "Menu for Every Mood",
+    description: "Choose from BBQ, traditional dishes, pizza, brunch, snacks, desserts, and beverages.",
+    image: "/gourmet-dish-plated-elegantly-on-white-plate.png",
+  },
+]
 
 export function ExperienceSection() {
   return (
-    <section className="py-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12" data-aos="fade-up">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-            The Complete Sunset Experience
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
-            More than just dining - it's a journey for all your senses
-          </p>
+    <section className="relative overflow-hidden py-24">
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-2/3 bg-gradient-to-t from-muted/50 to-transparent" />
+      <div className="svp-container">
+        <div className="mb-12 grid items-end gap-6 md:grid-cols-[1fr_auto]" data-aos="fade-up">
+          <div>
+            <span className="section-kicker"><Sparkles className="mr-2 h-3.5 w-3.5" /> The full experience</span>
+            <h2 className="max-w-3xl text-balance text-4xl font-black tracking-tight text-foreground md:text-5xl">
+              More than dinner - a sunset plan made simple.
+            </h2>
+          </div>
+          <Button asChild variant="outline" size="lg" className="hidden md:inline-flex">
+            <Link href="/booking">Book a Table <ArrowRight className="h-4 w-4" /></Link>
+          </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          {[
-            {
-              icon: Sunset,
-              title: "Golden Hour Dining",
-              description:
-                "Time your meal perfectly with nature's daily masterpiece. Our sunset timing ensures you never miss the magic.",
-              image: "/elegant-restaurant-dining-room-with-warm-lighting.png",
-            },
-            {
-              icon: Camera,
-              title: "Instagram-Worthy Views",
-              description:
-                "Capture memories that last forever with our panoramic sunset views and beautifully plated dishes.",
-              image: "/wine-glasses-and-elegant-table-setting.png",
-            },
-            {
-              icon: Music,
-              title: "Ambient Atmosphere",
-              description:
-                "Soft acoustic melodies complement the natural symphony of the evening, creating the perfect ambiance.",
-              image: "/elegant-restaurant-interior-with-warm-lighting-and.webp",
-            },
-            {
-              icon: Utensils,
-              title: "Culinary Artistry",
-              description:
-                "Each dish is a work of art, crafted to complement the visual feast happening outside your window.",
-              image: "/gourmet-dish-plated-elegantly-on-white-plate.png",
-            },
-          ].map((experience, index) => {
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {experiences.map((experience, index) => {
             const IconComponent = experience.icon
             return (
               <Card
-                key={index}
-                className="overflow-hidden hover:shadow-lg transition-all duration-300"
+                key={experience.title}
+                className="surface-card group overflow-hidden py-0"
                 data-aos="fade-up"
                 data-aos-delay={index * 100}
               >
-                <div className="relative h-48">
-                  <img
-                    src={experience.image || "/placeholder.svg"}
-                    alt={experience.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="absolute top-4 left-4 w-12 h-12 bg-primary/90 rounded-full flex items-center justify-center">
-                    <IconComponent className="w-6 h-6 text-primary-foreground" />
+                <CardContent className="grid gap-0 p-0 sm:grid-cols-[14rem_1fr]">
+                  <div className="relative min-h-56 overflow-hidden sm:min-h-full">
+                    <img
+                      src={experience.image || "/placeholder.svg"}
+                      alt={experience.title}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent sm:bg-gradient-to-r" />
                   </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-foreground mb-3 text-balance">{experience.title}</h3>
-                  <p className="text-muted-foreground text-pretty">{experience.description}</p>
+                  <div className="relative p-6">
+                    <div className="mb-5 grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary">
+                      <IconComponent className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-balance text-xl font-bold text-foreground">{experience.title}</h3>
+                    <p className="mt-3 text-pretty text-sm leading-6 text-muted-foreground">{experience.description}</p>
+                  </div>
                 </CardContent>
               </Card>
             )
           })}
         </div>
 
-        <div className="text-center" data-aos="fade-up" data-aos-delay="400">
-          <Button asChild size="lg" className="text-lg px-8 py-3">
+        <div className="mt-10 text-center md:hidden" data-aos="fade-up" data-aos-delay="400">
+          <Button asChild size="lg">
             <Link href="/booking">Reserve Your Sunset Experience</Link>
           </Button>
         </div>

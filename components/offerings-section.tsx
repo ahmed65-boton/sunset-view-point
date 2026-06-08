@@ -1,86 +1,80 @@
-// D:\CO Laptop Data\sunset-view-point-main\components\offerings-section.tsx
 import { Card, CardContent } from "@/components/ui/card";
-import { ChefHat, Utensils, Wine, Gift } from "lucide-react";
+import { BadgePercent, ChefHat, Gift, Utensils } from "lucide-react";
 
 const offerings = [
   {
     icon: ChefHat,
-    title: "Chef's Specials",
+    title: "Chef-Led Favorites",
     description:
-      "Signature dishes crafted by our award-winning chef using the finest seasonal ingredients and innovative techniques.",
+      "Freshly prepared BBQ, karahi, handi, brunch, snacks, desserts, and drinks with generous portions for every table.",
     image: "/gourmet-dish-plated-elegantly-on-white-plate.png",
   },
   {
     icon: Utensils,
-    title: "Menu Variety",
+    title: "Easy Pre-Order Menu",
     description:
-      "From classic favorites to contemporary creations, our diverse menu caters to every palate and dietary preference.",
+      "Browse dishes, search categories, add quantities, and see your total before sending the booking request.",
     image: "/variety-of-elegant-dishes-on-restaurant-table.png",
   },
   {
-    icon: Wine,
-    title: "Premium Ambience",
+    icon: BadgePercent,
+    title: "Member Discount",
     description:
-      "Immerse yourself in our sophisticated atmosphere with ambient lighting, comfortable seating, and impeccable service.",
+      "Create a free member account before booking and the 25% discount is applied automatically at checkout.",
     image: "/elegant-restaurant-dining-room-with-warm-lighting.png",
   },
   {
     icon: Gift,
-    title: "Special Offers",
+    title: "Occasion Ready",
     description:
-      "Enjoy exclusive dining experiences with our seasonal promotions, discounts, and special event packages.",
+      "Add seating preferences, birthday setup notes, dietary needs, or private event details with your reservation.",
     image: "/wine-glasses-and-elegant-table-setting.png",
   },
 ];
 
 export function OfferingsSection() {
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16" data-aos="fade-up">
-          <h2
-            className="text-4xl md:text-5xl font-bold text-foreground mb-6 text-balance"
-            data-aos="fade-up"
-            data-aos-delay="200"
-          >
-            What We Offer
+    <section className="relative overflow-hidden py-24">
+      <div className="absolute inset-0 -z-10 bg-muted/40" />
+      <div className="absolute left-0 top-12 -z-10 size-72 rounded-full bg-primary/10 blur-3xl" />
+      <div className="svp-container">
+        <div className="mx-auto mb-14 max-w-3xl text-center" data-aos="fade-up">
+          <span className="section-kicker">Why guests choose us</span>
+          <h2 className="text-balance text-4xl font-black tracking-tight text-foreground md:text-5xl">
+            A smoother way to plan a memorable meal.
           </h2>
-          <p
-            className="text-xl text-muted-foreground max-w-3xl mx-auto text-pretty"
-            data-aos="fade-up"
-            data-aos-delay="400"
-          >
-            Discover the exceptional dining experience that awaits you at Sunset
-            View Point, where every detail is crafted to perfection.
+          <p className="mt-5 text-pretty text-lg leading-8 text-muted-foreground">
+            From menu browsing to table confirmation, every step is designed to feel clear, fast, and welcoming.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {offerings.map((offering, index) => {
             const IconComponent = offering.icon;
             return (
               <Card
-                key={index}
-                className="group hover:shadow-lg transition-all duration-300 border-border/50 hover:border-primary/20"
+                key={offering.title}
+                className="surface-card group overflow-hidden py-0"
                 data-aos="fade-up"
-                data-aos-delay={600 + index * 100}
+                data-aos-delay={150 + index * 100}
               >
                 <CardContent className="p-0">
-                  <div className="relative overflow-hidden rounded-t-lg">
+                  <div className="relative overflow-hidden">
                     <img
                       src={offering.image || "/placeholder.svg"}
                       alt={offering.title}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute top-4 left-4 bg-primary/90 p-2 rounded-full">
-                      <IconComponent className="w-6 h-6 text-primary-foreground" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                    <div className="absolute bottom-4 left-4 grid size-12 place-items-center rounded-2xl bg-white/90 text-primary shadow-lg backdrop-blur">
+                      <IconComponent className="h-6 w-6" />
                     </div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-xl font-semibold text-foreground mb-3 text-balance">
+                    <h3 className="text-balance text-xl font-bold text-foreground">
                       {offering.title}
                     </h3>
-                    <p className="text-muted-foreground text-pretty leading-relaxed">
+                    <p className="mt-3 text-pretty text-sm leading-6 text-muted-foreground">
                       {offering.description}
                     </p>
                   </div>

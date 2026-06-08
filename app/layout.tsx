@@ -9,9 +9,9 @@ import { AOSProvider } from "@/components/aos-provider";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "Sunset View Point Restaurant",
+  title: "Sunset View Point | Quetta Valley Dining",
   description:
-    "Experience fine dining with breathtaking sunset views. Book your table today.",
+    "Reserve tables, browse the menu, and enjoy golden-hour dining at Sunset View Point in Quetta.",
   icons: {
     icon: [
       {

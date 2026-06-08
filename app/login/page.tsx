@@ -1,26 +1,33 @@
-// app/login/page.tsx
 "use client";
 
+import type React from "react";
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { BadgePercent, LockKeyhole, Mail, Sparkles } from "lucide-react";
 
-import { auth } from "@/lib/firebase/client";
-import { Navigation } from "@/components/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
+import { Navigation } from "@/components/navigation";
+import { auth } from "@/lib/firebase/client";
+import { cn } from "@/lib/utils";
+
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+function getStatusClass(status: string) {
+  const lower = status.toLowerCase();
+  if (lower.includes("success")) return "border-primary/25 bg-primary/10 text-primary";
+  return "border-destructive/25 bg-destructive/10 text-destructive";
+}
 
 export default function LoginPage() {
   const router = useRouter();
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -28,17 +35,19 @@ export default function LoginPage() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setStatus("");
 
-    // basic validation
-    if (!formData.email.includes("@") || !formData.email.endsWith(".com")) {
-      setStatus("Please enter a valid email (must contain @ and end with .com).");
+    const email = formData.email.trim().toLowerCase();
+    const password = formData.password;
+
+    if (!isValidEmail(email)) {
+      setStatus("Please enter a valid email address.");
       return;
     }
 
-    if (!formData.password.trim()) {
+    if (!password.trim()) {
       setStatus("Password is required.");
       return;
     }
@@ -47,26 +56,18 @@ export default function LoginPage() {
       setLoading(true);
       setStatus("Logging you in...");
 
-      // ✅ Log in existing Firebase user
-      const userCred = await signInWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password
-      );
+      await signInWithEmailAndPassword(auth, email, password);
 
-      console.log("Logged in user:", userCred.user);
-
-      setStatus("✅ Logged in!");
-
-      // redirect wherever you want after login:
-      // home, booking page, admin dashboard, etc.
-      router.push("/"); // change to "/booking" or "/admin" if you like
+      setStatus("Logged in successfully.");
+      router.push("/members");
+      router.refresh();
     } catch (err: any) {
-      console.error("Login error:", err);
+      console.error("[LoginPage] Login error:", err);
 
       switch (err.code) {
         case "auth/user-not-found":
-          setStatus("No user found with that email. Try signing up first.");
+        case "auth/invalid-credential":
+          setStatus("No account matched those details. Check your email/password or sign up.");
           break;
         case "auth/wrong-password":
           setStatus("Incorrect password.");
@@ -89,61 +90,86 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="py-16">
-        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
-          <Card className="shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-center">
-                Login
-              </CardTitle>
-            </CardHeader>
+      <main className="py-16 md:py-20">
+        <div className="svp-container">
+          <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[2rem] border border-border/70 bg-card/80 shadow-2xl shadow-primary/10 backdrop-blur lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="relative hidden min-h-[42rem] overflow-hidden lg:block">
+              <img src="/elegant-restaurant-interior-with-warm-lighting-and.webp" alt="Restaurant ambience" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
+              <div className="absolute bottom-0 p-10 text-white">
+                <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-semibold backdrop-blur">
+                  <BadgePercent className="h-4 w-4 text-amber-200" /> Member access
+                </span>
+                <h1 className="text-balance text-4xl font-black">Login to unlock your 25% food discount.</h1>
+                <p className="mt-4 text-pretty text-white/75">Book faster, keep your member discount active, and view your member benefits.</p>
+              </div>
+            </div>
 
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="login-email">Email</Label>
-                  <Input
-                    id="login-email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleChange("email", e.target.value)}
-                    required
-                  />
-                </div>
+            <div className="p-6 sm:p-10 lg:p-12">
+              <Card className="border-0 bg-transparent py-0 shadow-none">
+                <CardHeader className="px-0 pb-8">
+                  <span className="section-kicker">Welcome back</span>
+                  <CardTitle className="text-3xl font-black tracking-tight md:text-4xl">Login to your account</CardTitle>
+                  <p className="text-sm text-muted-foreground">Continue to the members area and book with your discount.</p>
+                </CardHeader>
 
-                <div className="space-y-2">
-                  <Label htmlFor="login-password">Password</Label>
-                  <Input
-                    id="login-password"
-                    type="password"
-                    value={formData.password}
-                    onChange={(e) => handleChange("password", e.target.value)}
-                    required
-                  />
-                </div>
+                <CardContent className="px-0">
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="rounded-2xl border border-primary/20 bg-primary/10 p-4 text-sm text-muted-foreground">
+                      <div className="flex gap-3">
+                        <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                        <p><span className="font-bold text-foreground">Member perk:</span> login before booking to apply 25% off selected food.</p>
+                      </div>
+                    </div>
 
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Logging in..." : "Login"}
-                </Button>
+                    <div className="space-y-2">
+                      <Label htmlFor="login-email">Email</Label>
+                      <div className="relative">
+                        <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          id="login-email"
+                          type="email"
+                          autoComplete="email"
+                          placeholder="you@example.com"
+                          className="pl-11"
+                          value={formData.email}
+                          onChange={(e) => handleChange("email", e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
 
-                {/* link to sign up if user doesn't have an account */}
-                <Button
-                  asChild
-                  variant="outline"
-                  className="w-full mt-2"
-                  type="button"
-                >
-                  <Link href="/sign-up">Create a new account</Link>
-                </Button>
+                    <div className="space-y-2">
+                      <Label htmlFor="login-password">Password</Label>
+                      <div className="relative">
+                        <LockKeyhole className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                          id="login-password"
+                          type="password"
+                          autoComplete="current-password"
+                          placeholder="Enter your password"
+                          className="pl-11"
+                          value={formData.password}
+                          onChange={(e) => handleChange("password", e.target.value)}
+                          required
+                        />
+                      </div>
+                    </div>
 
-                {status && (
-                  <p className="text-sm text-muted-foreground mt-2 text-center">
-                    {status}
-                  </p>
-                )}
-              </form>
-            </CardContent>
-          </Card>
+                    <Button type="submit" size="lg" className="w-full" disabled={loading}>
+                      {loading ? "Logging in..." : "Login"}
+                    </Button>
+
+                    <Button asChild variant="outline" size="lg" className="w-full">
+                      <Link href="/sign-up">Create a new account</Link>
+                    </Button>
+
+                    {status && <p className={cn("rounded-2xl border px-4 py-3 text-center text-sm font-medium", getStatusClass(status))}>{status}</p>}
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
       </main>
     </div>

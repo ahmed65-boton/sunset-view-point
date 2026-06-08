@@ -3,12 +3,13 @@
 import type React from "react";
 import { useState } from "react";
 import emailjs from "@emailjs/browser";
+import { addDoc, collection, doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { Mail, Send, Sparkles } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -16,23 +17,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Mail } from "lucide-react";
-
+import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/lib/firebase/client";
-import {
-  doc,
-  setDoc,
-  collection,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { cn } from "@/lib/utils";
 
+const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "nXQldBEXxkP9OvbsA";
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "service_po9ijq4";
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_CONTACT_TEMPLATE_ID || "template_tvw22j5";
 
-const PUBLIC_KEY = "nXQldBEXxkP9OvbsA";
-const SERVICE_ID = "service_po9ijq4";
-const TEMPLATE_ID = "template_tvw22j5";
-
-emailjs.init(PUBLIC_KEY);
+if (PUBLIC_KEY) {
+  emailjs.init(PUBLIC_KEY);
+}
 
 type FormData = {
   name: string;
@@ -42,16 +37,30 @@ type FormData = {
   message: string;
 };
 
-export function ContactForm() {
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
+const initialFormData: FormData = {
+  name: "",
+  email: "",
+  phone: "",
+  subject: "",
+  message: "",
+};
 
-  const [status, setStatus] = useState<string>("");
+function isValidEmail(email: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+function getStatusClass(status: string) {
+  const lower = status.toLowerCase();
+  if (lower.includes("failed") || lower.includes("please") || lower.includes("empty")) {
+    return "border-destructive/25 bg-destructive/10 text-destructive";
+  }
+  if (lower.includes("sent")) return "border-primary/25 bg-primary/10 text-primary";
+  return "border-border bg-muted/70 text-muted-foreground";
+}
+
+export function ContactForm() {
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -59,27 +68,36 @@ export function ContactForm() {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    const { name, email, phone, subject, message } = formData;
+    const name = formData.name.trim();
+    const email = formData.email.trim().toLowerCase();
+    const phone = formData.phone.trim();
+    const message = formData.message.trim();
 
-    // Validation
-    if (!email.includes("@") || !email.endsWith(".com")) {
-      setStatus("Please enter a valid email (must contain @ and end with .com).");
+    if (!name) {
+      setStatus("Please enter your name.");
       return;
     }
-    if (!name.trim()) {
-      setStatus("Name is required.");
+
+    if (!isValidEmail(email)) {
+      setStatus("Please enter a valid email address.");
       return;
     }
-    if (!message.trim()) {
+
+    if (!formData.subject) {
+      setStatus("Please select a subject.");
+      return;
+    }
+
+    if (!message) {
       setStatus("Message cannot be empty.");
       return;
     }
 
     setLoading(true);
-    setStatus("Sending...");
+    setStatus("Sending your message...");
 
     const subjectLabelMap: Record<string, string> = {
       reservation: "Reservation Inquiry",
@@ -89,61 +107,48 @@ export function ContactForm() {
       other: "Other",
     };
 
-    const subjectLabel =
-      subjectLabelMap[subject] || (subject ? subject : "General Inquiry");
+    const subjectLabel = subjectLabelMap[formData.subject] || "General Inquiry";
 
-    // EmailJS template params
     const params = {
       email,
       name,
-      title: subjectLabel || "Thanks for contacting us!",
-      message:
-        `Phone: ${phone || "Not provided"}\n` +
-        `Subject: ${subjectLabel}\n\n` +
-        `${message}`,
+      title: subjectLabel,
+      message: `Phone: ${phone || "Not provided"}\nSubject: ${subjectLabel}\n\n${message}`,
       time: new Date().toLocaleString(),
     };
 
     try {
-        const customerRef = doc(db, "customers", email);
-              await setDoc(
-                customerRef,
-                {
-                  fullName: name,
-                  email,
-                  phone,
-                  updatedAt: serverTimestamp(),
-                },
-                { merge: true }
-            );
-      // ✅ 1) Save to Firestore
-      await addDoc(collection(customerRef, "Contact"), {
+      const customerRef = doc(db, "customers", email);
+
+      await setDoc(
+        customerRef,
+        {
+          fullName: name,
+          email,
+          phone,
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+
+      await addDoc(collection(customerRef, "contactMessages"), {
         name,
         email,
-        phone: phone || "",
+        phone,
         subject: subjectLabel,
         message,
         createdAt: serverTimestamp(),
-        // optional: keep a client-readable time too
         createdAtClient: new Date().toISOString(),
       });
 
-      // ✅ 2) Send email via EmailJS
       await emailjs.send(SERVICE_ID, TEMPLATE_ID, params, PUBLIC_KEY);
 
       setIsSubmitted(true);
-      setStatus("Sent! Check your inbox/spam folder.");
-
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-      });
+      setStatus("Message sent. Please check your inbox or spam folder for a copy.");
+      setFormData(initialFormData);
     } catch (err: any) {
       console.error("[ContactForm] submit error:", err);
-      setStatus(`Failed ❌ ${err?.text || err?.message || "Something went wrong"}`);
+      setStatus(`Failed to send: ${err?.text || err?.message || "Please try again."}`);
     } finally {
       setLoading(false);
     }
@@ -151,17 +156,13 @@ export function ContactForm() {
 
   if (isSubmitted) {
     return (
-      <Card className="border-primary/20 bg-primary/5">
+      <Card className="overflow-hidden border-primary/25 bg-primary/5 shadow-xl shadow-primary/10">
         <CardContent className="p-8 text-center">
-          <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-            <Mail className="w-8 h-8 text-primary-foreground" />
+          <div className="mx-auto mb-5 grid size-18 place-items-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25">
+            <Mail className="h-9 w-9" />
           </div>
-          <h3 className="text-2xl font-bold text-foreground mb-2">
-            Message Sent!
-          </h3>
-          <p className="text-muted-foreground mb-4">
-            Thank you for reaching out. We&apos;ll get back to you within 24 hours.
-          </p>
+          <h3 className="mb-2 text-2xl font-black text-foreground">Message Sent!</h3>
+          <p className="mx-auto mb-5 max-w-md text-muted-foreground">Thank you for reaching out. We will get back to you within 24 hours.</p>
           <Button
             onClick={() => {
               setIsSubmitted(false);
@@ -177,54 +178,45 @@ export function ContactForm() {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Mail className="h-5 w-5 text-primary" />
-          Send us a Message
+    <Card className="overflow-hidden shadow-xl shadow-primary/5">
+      <CardHeader className="border-b border-border/70 bg-gradient-to-r from-primary/10 to-transparent p-6">
+        <CardTitle className="flex items-center gap-3 text-2xl font-black">
+          <span className="grid size-11 place-items-center rounded-2xl bg-primary/10 text-primary">
+            <Mail className="h-5 w-5" />
+          </span>
+          Send us a message
         </CardTitle>
+        <p className="text-sm text-muted-foreground">Share the details and our team will follow up as soon as possible.</p>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="rounded-2xl border border-primary/20 bg-primary/10 p-4 text-sm text-muted-foreground">
+            <div className="flex gap-3">
+              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+              <p><span className="font-bold text-foreground">Tip:</span> Include your preferred date, time, and guest count for faster reservation support.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="contact-name">Name</Label>
-              <Input
-                id="contact-name"
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                required
-              />
+              <Input id="contact-name" placeholder="Your name" autoComplete="name" value={formData.name} onChange={(e) => handleInputChange("name", e.target.value)} required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="contact-email">Email</Label>
-              <Input
-                id="contact-email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                required
-              />
+              <Input id="contact-email" type="email" placeholder="you@example.com" autoComplete="email" value={formData.email} onChange={(e) => handleInputChange("email", e.target.value)} required />
             </div>
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="contact-phone">Phone (Optional)</Label>
-            <Input
-              id="contact-phone"
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-            />
+            <Input id="contact-phone" type="tel" placeholder="03xx xxxxxxx" autoComplete="tel" value={formData.phone} onChange={(e) => handleInputChange("phone", e.target.value)} />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="contact-subject">Subject</Label>
-            <Select
-              value={formData.subject}
-              onValueChange={(value) => handleInputChange("subject", value)}
-            >
-              <SelectTrigger id="contact-subject">
+            <Select value={formData.subject} onValueChange={(value) => handleInputChange("subject", value)}>
+              <SelectTrigger id="contact-subject" className="h-11 rounded-xl">
                 <SelectValue placeholder="Select a subject" />
               </SelectTrigger>
               <SelectContent>
@@ -249,13 +241,11 @@ export function ContactForm() {
             />
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Sending..." : "Send Message"}
+          <Button type="submit" size="lg" className="w-full" disabled={loading}>
+            {loading ? "Sending..." : <><Send className="h-5 w-5" /> Send Message</>}
           </Button>
 
-          {status && (
-            <p className="text-sm mt-2 text-muted-foreground">{status}</p>
-          )}
+          {status && <p className={cn("rounded-2xl border px-4 py-3 text-sm font-medium", getStatusClass(status))} aria-live="polite">{status}</p>}
         </form>
       </CardContent>
     </Card>
