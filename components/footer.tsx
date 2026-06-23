@@ -4,6 +4,7 @@ import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { format } from "date-fns";
 
 export function Footer() {
+  // HOURS_V5_VERIFIED: opening hours are 10:00 AM - 9:00 PM for both Mon-Thu and Fri-Sun
   return (
     <footer className="border-t border-border/70 bg-card/60 backdrop-blur">
       <div className="svp-container py-12">
@@ -65,8 +66,8 @@ export function Footer() {
             <div className="flex items-start gap-3">
               <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
               <div className="space-y-1 text-sm text-muted-foreground">
-                <p><span className="font-medium text-foreground">Mon - Thu:</span> 5:00 PM - 11:00 PM</p>
-                <p><span className="font-medium text-foreground">Fri - Sun:</span> 4:30 PM - 11:30 PM</p>
+                <p><span className="font-medium text-foreground">Mon - Thu:</span> 10:00 AM - 9:00 PM</p>
+                <p><span className="font-medium text-foreground">Fri - Sun:</span> 10:00 AM - 9:00 PM</p>
                 <p className="pt-1 text-xs font-bold text-primary">Best sunset views: 6:00 PM - 7:30 PM</p>
               </div>
             </div>

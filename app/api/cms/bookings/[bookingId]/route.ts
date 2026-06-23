@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { requireCmsAccess } from "@/lib/cms-auth";
 import { db } from "@/lib/firebase/admin";
+import { recordCmsAudit } from "@/lib/cms-audit";
 import { MEMBER_DISCOUNT_RATE } from "@/lib/menu";
 
 const BookingOrderItemSchema = z.object({
@@ -20,6 +21,8 @@ const BookingUpdateSchema = z.object({
   customerId: z.string().trim().min(1, "customerId is required"),
   order: z.array(BookingOrderItemSchema),
   specialRequests: z.string().optional(),
+  status: z.enum(["pending", "confirmed", "cancelled", "completed"]).optional(),
+  paymentStatus: z.enum(["unpaid", "paid", "refunded"]).optional(),
 });
 
 type RouteContext = {
@@ -89,7 +92,21 @@ export async function PATCH(req: Request, context: RouteContext) {
       updateData.specialRequests = input.specialRequests;
     }
 
+    if (input.status) {
+      updateData.status = input.status;
+    }
+
+    if (input.paymentStatus) {
+      updateData.paymentStatus = input.paymentStatus;
+    }
+
     await bookingRef.update(updateData);
+    await recordCmsAudit("booking.update", `${customerId}/${bookingId}`, {
+      status: input.status ?? current.status ?? "pending",
+      paymentStatus: input.paymentStatus ?? current.paymentStatus ?? "unpaid",
+      items: order.length,
+      total,
+    });
 
     return NextResponse.json({ ok: true, pricing: updateData.pricing, order });
   } catch (err: any) {

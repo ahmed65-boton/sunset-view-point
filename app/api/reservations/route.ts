@@ -117,6 +117,17 @@ export async function POST(req: Request) {
 
       const settings = settingsSnap.exists ? settingsSnap.data() : {};
       const maxGuestsPerSlot = (settings?.maxGuestsPerSlot as number) ?? 20;
+      const openingTime = String(settings?.openingTime ?? "00:00");
+      const closingTime = String(settings?.closingTime ?? "23:59");
+      const blackoutDates = Array.isArray(settings?.blackoutDates) ? settings?.blackoutDates : [];
+
+      if (blackoutDates.includes(dateKey)) {
+        return { ok: false as const, message: "Bookings are closed for this date." };
+      }
+
+      if (input.time < openingTime || input.time > closingTime) {
+        return { ok: false as const, message: `Please choose a time between ${openingTime} and ${closingTime}.` };
+      }
 
       const currentTotal = slotSnap.exists ? (slotSnap.data()?.totalGuests ?? 0) : 0;
       const slotMax = slotSnap.exists

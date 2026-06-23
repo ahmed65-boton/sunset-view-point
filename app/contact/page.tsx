@@ -24,7 +24,7 @@ const contactItems = [
   {
     icon: Clock,
     title: "Opening Hours",
-    lines: ["Mon - Thu: 5:00 PM - 11:00 PM", "Fri - Sun: 4:30 PM - 11:30 PM", "Best views: 6:00 PM - 7:30 PM"],
+    lines: ["Mon - Thu: 10:00 AM - 9:00 PM", "Fri - Sun: 10:00 AM - 9:00 PM", "Best views: 6:00 PM - 7:30 PM"],
   },
 ];
 

@@ -12,17 +12,20 @@ import { Button } from "@/components/ui/button";
 import { auth } from "@/lib/firebase/client";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
+const baseNavLinks = [
   { href: "/", label: "Home" },
   { href: "/booking", label: "Menu & Booking" },
   { href: "/contact", label: "Contact" },
   { href: "/members", label: "Members" },
 ];
 
+type PublicCmsPageLink = { id: string; title: string; slug: string };
+
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [cmsPages, setCmsPages] = useState<PublicCmsPageLink[]>([]);
   const { theme, setTheme } = useTheme();
   const pathname = usePathname();
   const router = useRouter();
@@ -31,6 +34,26 @@ export function Navigation() {
     setMounted(true);
     return onAuthStateChanged(auth, (firebaseUser) => setUser(firebaseUser));
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/pages")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled && data?.ok && Array.isArray(data.pages)) {
+          setCmsPages(data.pages);
+        }
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const navLinks = [
+    ...baseNavLinks,
+    ...cmsPages.map((page) => ({ href: `/${page.slug}`, label: page.title })),
+  ];
 
   useEffect(() => {
     setIsOpen(false);

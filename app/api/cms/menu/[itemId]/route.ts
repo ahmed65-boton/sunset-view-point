@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { requireCmsAccess } from "@/lib/cms-auth";
 import { db } from "@/lib/firebase/admin";
+import { recordCmsAudit } from "@/lib/cms-audit";
 
 const MenuItemUpdateSchema = z.object({
   name: z.string().trim().min(1).optional(),
@@ -40,6 +41,7 @@ export async function PATCH(req: Request, context: RouteContext) {
     };
 
     await db.collection("cmsMenuItems").doc(String(itemIdNumber)).set(updateData, { merge: true });
+    await recordCmsAudit("menu.update", String(itemIdNumber), input);
 
     return NextResponse.json({ ok: true });
   } catch (err: any) {
@@ -69,6 +71,7 @@ export async function DELETE(req: Request, context: RouteContext) {
       },
       { merge: true }
     );
+    await recordCmsAudit("menu.delete", String(itemIdNumber), { isActive: false });
 
     return NextResponse.json({ ok: true });
   } catch (err: any) {

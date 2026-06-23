@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { requireCmsAccess } from "@/lib/cms-auth";
 import { db } from "@/lib/firebase/admin";
+import { recordCmsAudit } from "@/lib/cms-audit";
 import { getStaticMenuItemRows, type CmsMenuItem } from "@/lib/menu-admin";
 
 const MenuItemCreateSchema = z.object({
@@ -112,6 +113,8 @@ export async function POST(req: Request) {
       createdAt: FieldValue.serverTimestamp(),
       updatedAt: FieldValue.serverTimestamp(),
     });
+
+    await recordCmsAudit("menu.create", String(nextId), { name: input.name, category: input.category });
 
     return NextResponse.json({ ok: true, itemId: nextId, items: await getCmsRows() });
   } catch (err: any) {

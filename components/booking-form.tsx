@@ -108,6 +108,7 @@ export function BookingForm({ selectedItems, onClearOrder, menuCategories }: Boo
   const isMember = Boolean(currentUser);
   const discount = getMemberDiscount(subtotal, isMember);
   const finalTotal = Math.max(0, subtotal - discount);
+  const hasOrderItems = orderLines.length > 0;
 
   const handleInputChange = (field: keyof BookingFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -126,6 +127,7 @@ export function BookingForm({ selectedItems, onClearOrder, menuCategories }: Boo
     if (formData.date < getTodayInputValue()) return "Please choose today or a future date.";
     if (!formData.time) return "Please choose a booking time.";
     if (!Number.isInteger(guests) || guests < 1) return "Please select the number of guests.";
+    if (!hasOrderItems) return "Please select at least one menu item before booking.";
 
     return "";
   };
@@ -157,7 +159,7 @@ export function BookingForm({ selectedItems, onClearOrder, menuCategories }: Boo
               )}`
           )
           .join("\n")
-      : "No food items selected yet.";
+      : "No food items selected.";
 
     const bookingMessage = `Booking Details:\n-------------------------\nName: ${name}\nPhone: ${phone}\nDate: ${formData.date}\nTime: ${formData.time}\nGuests: ${guests}\n\nOrder:\n${orderText}\n\nSubtotal: ${formatCurrency(subtotal)}\nMember Discount: ${discount > 0 ? `- ${formatCurrency(discount)}` : formatCurrency(0)}\nTotal: ${formatCurrency(finalTotal)}\n\nSpecial Requests:\n${specialRequests || "None"}\n\nWe look forward to serving you at Sunset View Point!`;
 
@@ -210,6 +212,8 @@ export function BookingForm({ selectedItems, onClearOrder, menuCategories }: Boo
           total: finalTotal,
           currency: "PKR",
         },
+        status: "pending",
+        paymentStatus: "unpaid",
         isMember,
         userId: currentUser?.uid ?? null,
         createdAt: serverTimestamp(),
@@ -307,7 +311,7 @@ export function BookingForm({ selectedItems, onClearOrder, menuCategories }: Boo
           Table Reservation
         </CardTitle>
         <p className="text-sm text-muted-foreground">
-          Fill in your details. Your selected menu items are saved in the live total.
+          Fill in your details. Please select at least one menu item before confirming your booking.
         </p>
       </CardHeader>
       <CardContent className="p-6">
@@ -430,7 +434,7 @@ export function BookingForm({ selectedItems, onClearOrder, menuCategories }: Boo
                 </div>
               ) : (
                 <p className="rounded-2xl border border-dashed border-border bg-card/70 p-4 text-sm text-muted-foreground">
-                  No food selected yet. You can still reserve a table and order later.
+                  No food selected yet. Select at least one menu item to continue with your booking.
                 </p>
               )}
 
@@ -444,11 +448,19 @@ export function BookingForm({ selectedItems, onClearOrder, menuCategories }: Boo
             </CardContent>
           </Card>
 
-          <Button type="submit" size="lg" className="w-full" disabled={loading}>
+          {!hasOrderItems && (
+            <p className="rounded-2xl border border-destructive/25 bg-destructive/10 px-4 py-3 text-center text-sm font-bold text-destructive" aria-live="polite">
+              Add at least one menu item before confirming your booking.
+            </p>
+          )}
+
+          <Button type="submit" size="lg" className="w-full" disabled={loading || !hasOrderItems}>
             {loading ? (
               <>Confirming...</>
-            ) : (
+            ) : hasOrderItems ? (
               <><MailCheck className="h-5 w-5" /> Confirm Booking</>
+            ) : (
+              <><MailCheck className="h-5 w-5" /> Select food items to book</>
             )}
           </Button>
 
